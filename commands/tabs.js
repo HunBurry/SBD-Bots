@@ -13,7 +13,7 @@ module.exports = {
             data2 = JSON.parse(data);
             members = data2["Response"]["members"]
             for (let i = 0; i < members.length; i++) {
-                if (members[i]['username'].toLowerCase() == name.toLowerCase()) {
+                if (members[i]['bungieID'] == name) {
                     user = members[i];
                     break;
                 }
@@ -31,13 +31,13 @@ module.exports = {
                     seasonCP = ''
                     seasonAP = ''
                     for (let i = 0; i < seasonCur.length; i++) {
-                        if (seasonCur[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (seasonCur[i]['bungieID'] == name2) {
                             seasonCP = seasonCur[i]['tab']
                             break;
                         }
                     }
                     for (let i = 0; i < seasonAll.length; i++) {
-                        if (seasonAll[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (seasonAll[i]['bungieID'] == name2) {
                             seasonAP = seasonAll[i]['tab']
                             break;
                         }
@@ -55,8 +55,8 @@ module.exports = {
                     }
                     const Discord = require('discord.js');
                     const first = new Discord.MessageEmbed()
-                    .setTitle("Tabs with " + name2)
-                    .setDescription("You" + doDont + "a tab with " + name2 + "!")
+                    .setTitle("Tabs with " + rest)
+                    .setDescription("You" + doDont + "a tab with " + rest + "!")
                     .setColor(message.member.displayHexColor);
                     message.channel.send(first);
                 }
@@ -69,13 +69,13 @@ module.exports = {
                 overallPoints = user['seasonScores'][0]['tabs']
                 const embed = {
                     "title": "Tabs for " + name,
-                    "description": "You have " + seasonPoints + " tabs [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Arrival), and " + overallPoints +
+                    "description": "You have " + seasonPoints + " tabs [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Hunt), and " + overallPoints +
                         " [total tabs](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&dcs-page=1&season=all&sort=tabs&search=)."
                 }
                 const Discord = require('discord.js')
                 const first = new Discord.MessageEmbed()
-                .setTitle("Tabs for " + name)
-                .setDescription("You have " + seasonPoints + " tabs [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Arrival), and " + overallPoints +
+                .setTitle("Tabs for " + message.author.username)
+                .setDescription("You have " + seasonPoints + " tabs [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Hunt), and " + overallPoints +
                 " [total tabs](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&dcs-page=1&season=all&sort=tabs&search=).")
                 .setColor(message.member.displayHexColor);
                 message.channel.send(first);

@@ -6,6 +6,7 @@ module.exports = {
         const Discord = require('discord.js')
         const axios = require('axios');
         name = await myCommand.execute(message.author.username, databases);
+        console.log(name)
         if (name) {
             url = 'https://sixbeersdeep.net/wp-content/plugins/D2ClanScore/api/Roster/'
             const response = await axios.get(url);
@@ -15,7 +16,7 @@ module.exports = {
             data2 = JSON.parse(data);
             members = data2["Response"]["members"]
             for (let i = 0; i < members.length; i++) {
-                if (members[i]['username'].toLowerCase() == name.toLowerCase()) {
+                if (members[i]['bungieID'].toLowerCase() == name.toLowerCase()) {
                     user = members[i];
                     break;
                 }
@@ -29,7 +30,7 @@ module.exports = {
                 name2 = await client.commands.get("checkName").execute(rest, databases)
                 if (name2) {
                     for (let i = 0; i < members.length; i++) {
-                        if (members[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (members[i]['bungieID'].toLowerCase() == name2.toLowerCase()) {
                             user2 = members[i];
                             break;
                         }
@@ -45,13 +46,13 @@ module.exports = {
                     seasonTabs = user2['seasonScores'][1]['tabs']
                     overallTabs = user2['seasonScores'][0]['tabs']
                     const embed = {
-                        "title": "Stats for " + name2,
+                        "title": "Stats for " + rest,
                         "description": "This season, " + name2 + " has " + seasonPoints + " points, " + seasonTags + " tags, and " + seasonTabs + " tabs. Overall, they have " +
                             overallPoints + " points, " + overallTags + " tags, and " + overallTabs + " tabs."
                     }
                     const first = new Discord.MessageEmbed()
-                        .setTitle('Stats for ' + name2)
-                        .setDescription("This season, " + name2 + " has " + seasonPoints + " points, " + seasonTags + " tags, and " + seasonTabs + " tabs. Overall, they have " +
+                        .setTitle('Stats for ' + rest)
+                        .setDescription("This season, " + rest + " has " + seasonPoints + " points, " + seasonTags + " tags, and " + seasonTabs + " tabs. Overall, they have " +
                         overallPoints + " points, " + overallTags + " tags, and " + overallTabs + " tabs.")
                         .setColor(message.member.displayHexColor);
                     message.channel.send(first);
@@ -70,12 +71,12 @@ module.exports = {
                 let tHER = "This season, you have " + seasonPoints + " points, " + seasonTags + " tags, and " + seasonTabs + " tabs. Overall, you have " +
                 overallPoints + " points, " + overallTags + " tags, and " + overallTabs + " tabs."
                 const first = new Discord.MessageEmbed()
-                .setTitle('Stats for ' + name)
+                .setTitle('Stats for ' + message.author.username)
                 .setDescription(tHER)
                 .setColor(message.member.displayHexColor);
                 message.channel.send(first);
                 const embed = {
-                    "title": "Stats for " + name,
+                    "title": "Stats for " + message.author.username,
                     "description": "This season, you have " + seasonPoints + " points, " + seasonTags + " tags, and " + seasonTabs + " tabs. Overall, you have " +
                         overallPoints + " points, " + overallTags + " tags, and " + overallTabs + " tabs."
                 }

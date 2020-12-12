@@ -3,7 +3,6 @@ module.exports = {
 	description: 'Used by admins to say anything they want in a channel, given a channel id.',
 	async execute(args, message, client, databases) {
         const Discord = require('discord.js')
-        const tmi = require('tmi.js');
         if (message.member.roles.cache.find(r => r.name === "Bartenders") || message.member.roles.cache.find(r => r.name === "Designated Drivers") || message.author.username === "HunBurry") {
 
             desc = '';
@@ -71,78 +70,13 @@ module.exports = {
                     );
                     myMessage.edit(newEmbed)
                     }
-                    ///myMessage.edit(newEmbed)
                 }, 60000);
-    
-                const opts = {
-                    identity: {
-                        username: "SBD_Bartender",
-                        password: "oauth:lcehyzu0e1brhdbrvwhycyebxfd6a2"
-                    },
-                    channels: [
-                        "HunBurry",
-                        "jackedupjonesy",
-                        'liiguardlii',
-                        'clerkgames',
-                        'Ninjarabi1',
-                        'theocratical',
-                        'BestNinjaNW',
-                        'Acemo74',
-                        'kinggummylive',
-                        'futureishere',
-                        'ghostscout_ben',
-                        'cptncr3d1ble',
-                        'Sp1der05',
-                        'wokeology',
-                        'blackbuc911',
-                        'CrankyGuardian',
-                        'lipidquadcab',
-                        'saintlxix',
-                        'alaskalostcauze',
-                        'm9aviator1'
-                    ]
-                  };
-                  console.log("Hi")
-    
-                const client2 = new tmi.client(opts);
-                client2.connect();
-                
-                client2.on('connected', function() {
-                    myChans = [
-                        "HunBurry",
-                        "jackedupjonesy",
-                        'liiguardlii',
-                        'clerkgames',
-                        'theocratical',
-                        'Ninjarabi1',
-                        'BestNinjaNW',
-                        'Acemo74',
-                        'kinggummylive',
-                        'futureishere',
-                        'ghostscout_ben',
-                        'cptncr3d1ble',
-                        'Sp1der05',
-                        'wokeology',
-                        'blackbuc911',
-                        'CrankyGuardian',
-                        'lipidquadcab',
-                        'saintlxix',
-                        'alaskalostcauze',
-                        'm9aviator1'
-                    ]
-                    for (let i = 0; i < myChans.length; i++) {
-                        console.log("trying")
-                        client2.say(myChans[i], message.member.displayName + " has started a new giveaway. Provided description: "  + desc)
-                        client2.say(myChans[i], "Use -enter " + id + " followed by the amount of bottlecaps you'd like to wager to join the giveaway. Giveaway ends in " + timePeriod + " minutes. See the Administration section under -help (in Discord) for more questions.")
-                    } 
-                    client2.disconnect();
-                });
-    
+
             setTimeout(function() {
                 const command = client.commands.get('determinewinner');
                 const finalEmbed = new Discord.MessageEmbed()
                     .setColor(message.member.displayHexColor)
-                    .setTitle('New Giveaway/Event')
+                    .setTitle('Giveaway/Event')
                     .addFields(
                         { name: 'Hosted By:', value: message.member.displayName, inline: true },
                         { name: 'Remaining Time:', value: "Time Up!", inline: true },

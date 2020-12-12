@@ -10,13 +10,37 @@ module.exports = {
             }
             holdN = holdN.trim();
         }
-        else {
+        else if (args.length == 1) {
             holdN = args[0]
         }
+        else {
+            message.reply("You must provide a parameter (i.e. your username.)")
+            return;
+        }
         try {
+
+            const axios = require('axios');
+            url = 'https://sixbeersdeep.net/wp-content/plugins/D2ClanScore/api/Roster/'
+            const response = await axios.get(url);
+            const data = response.data;
+            user = '';
+            data2 = JSON.parse(data);
+            members = data2["Response"]["members"]
+            for (let i = 0; i < members.length; i++) {
+                if (members[i]['username'].toLowerCase() == holdN.toLowerCase()) {
+                    user = members[i];
+                    break;
+                }
+            }
+
+            if (user == '') {
+                message.reply("Username could not be located on the website. Please ensure you're using the correct information.")
+                return;
+            }
+
             const tag = await databases[0].create({
                 discordName: message.author.username,
-                websiteName: holdN
+                websiteName: user['bungieID']
             });
             const embed = {
                 "title": "Registration",
@@ -25,11 +49,12 @@ module.exports = {
             message.channel.send({
                 embed
             });
+
         }
         catch (e) {
             if (e.name == 'SequelizeUniqueConstraintError') {
                 const upd = await databases[0].update({
-                    websiteName: holdN
+                    websiteName: user['bungieID']
                 }, {
                     where: {
                         discordName: message.author.username

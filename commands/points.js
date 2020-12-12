@@ -14,7 +14,7 @@ module.exports = {
             data2 = JSON.parse(data);
             members = data2["Response"]["members"]
             for (let i = 0; i < members.length; i++) {
-                if (members[i]['username'].toLowerCase() == name.toLowerCase()) {
+                if (members[i]['bungieID'].toLowerCase() == name.toLowerCase()) {
                     user = members[i];
                     break;
                 }
@@ -36,24 +36,24 @@ module.exports = {
                     seasonCP = ''
                     seasonAP = ''
                     for (let i = 0; i < seasonCur.length; i++) {
-                        if (seasonCur[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (seasonCur[i]['bungieID'].toLowerCase() == name2.toLowerCase()) {
                             seasonCP = seasonCur[i]['points']
                             break;
                         }
                     }
                     for (let i = 0; i < seasonAll.length; i++) {
-                        if (seasonAll[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (seasonAll[i]['bungieID'].toLowerCase() == name2.toLowerCase()) {
                             seasonAP = seasonAll[i]['points']
                             break;
                         }
                     }
                     const embed = {
-                        "title": "Points with " + name2,
+                        "title": "Points with " + rest,
                         "description": "You have " + seasonCP + " points with " + name2 + " this season and " + seasonAP + " points with them overall."
                     }
                     const first = new Discord.MessageEmbed()
-                    .setTitle("Points with " + name2)
-                    .setDescription("You have " + seasonCP + " points with " + name2 + " this season and " + seasonAP + " points with them overall.")
+                    .setTitle("Points with " + rest)
+                    .setDescription("You have " + seasonCP + " points with " + rest + " this season and " + seasonAP + " points with them overall.")
                     .setColor(message.member.displayHexColor);
                     message.channel.send(first);
                 }
@@ -66,12 +66,12 @@ module.exports = {
                 overallPoints = user['seasonScores'][0]['points']
                 const embed = {
                     "title": "Points for " + name,
-                    "description": "You have " + seasonPoints + " points [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Arrival), and " + overallPoints +
+                    "description": "You have " + seasonPoints + " points [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Hunt), and " + overallPoints +
                         " [total points](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&dcs-page=1&season=all&sort=points&search=)."
                 }
                 const first = new Discord.MessageEmbed()
-                .setTitle("Points for " + name)
-                .setDescription("You have " + seasonPoints + " points [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Arrival), and " + overallPoints +
+                .setTitle("Points for " + message.author.username)
+                .setDescription("You have " + seasonPoints + " points [this season](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&season=Hunt), and " + overallPoints +
                 " [total points](https://sixbeersdeep.net/clan-roster/?member=" + user['destinyID'] + "&dcs-page=1&season=all&sort=points&search=).")
                 .setColor(message.member.displayHexColor);
                 message.channel.send(first);

@@ -14,7 +14,7 @@ module.exports = {
             datak = JSON.parse(data);
             members = datak["Response"]["members"]
             for (let i = 0; i < members.length; i++) {
-                if (members[i]['username'].toLowerCase() == name.toLowerCase()) {
+                if (members[i]['bungieID'].toLowerCase() == name.toLowerCase()) {
                     user = members[i];
                     break;
                 }
@@ -65,7 +65,7 @@ module.exports = {
                 myString2 = myString2 + i.toString() + ".\t" + items2[i - 1][0] + " (" + items2[i - 1][1] + ")\n"
             }
             const first = new Discord.MessageEmbed()
-                .setTitle('Top Friends of ' + name)
+                .setTitle('Top Friends of ' + message.author.username)
                 .addFields(
                     { name: 'Seasonal:', value: myString, inline: true}, 
                     { name: "Overall:", value: myString2, inline: true}

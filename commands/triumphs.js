@@ -11,7 +11,7 @@ module.exports = {
         if (x.first() != undefined) {
             disName = x.first().displayName
         }
-        doc.useApiKey('AIzaSyCdMrWC9YMt66aXuUma_k682WUv7GnfYog');
+        doc.useApiKey('API_KEY_HERE');
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[1];
         const rows = await sheet.getRows({offset: 0, limit: 550});

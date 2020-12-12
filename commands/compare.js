@@ -6,12 +6,14 @@ module.exports = {
         const Discord = require('discord.js')
         if (args[0]) {
             myCommand = client.commands.get("checkName")
-            name = await myCommand.execute(message.author.username, databases);
+            id = await myCommand.execute(message.author.username, databases);
             hold2 = await client.commands.get("nickToUser").execute(args, message, databases);
-            id = await client.commands.get("nickToUserID").execute(args, message, databases);
-            name2 = await client.commands.get("checkName").execute(hold2, databases);
-            if (name) {
-                if (name2) {
+            ///id = await client.commands.get("nickToUserID").execute(args, message, databases);
+            id2 = await client.commands.get("checkName").execute(hold2, databases);
+            console.log(id)
+            console.log(id2)
+            if (id) {
+                if (id2) {
                     url = 'https://sixbeersdeep.net/wp-content/plugins/D2ClanScore/api/Roster/'
                     const response = await axios.get(url);
                     const data = response.data;
@@ -20,19 +22,23 @@ module.exports = {
                     data2 = JSON.parse(data);
                     members = data2["Response"]["members"]
                     for (let i = 0; i < members.length; i++) {
-                        if (members[i]['username'].toLowerCase() == name.toLowerCase()) {
+                        if (members[i]['bungieID'].toLowerCase() == id.toLowerCase()) {
                             user = members[i];
                         }
-                        if (members[i]['username'].toLowerCase() == name2.toLowerCase()) {
+                        if (members[i]['bungieID'].toLowerCase() == id2.toLowerCase()) {
                             user2 = members[i];
                         }
                     }
                     u1s = user['seasonScores'][1]
                     u1a = user['seasonScores'][0]
+                    if (user2 == '') {
+                        message.channel.send("Looks like that user hasn't re-registered just yet. Sorry!")
+                        return;
+                    }
                     u2s = user2['seasonScores'][1]
                     u2a = user2['seasonScores'][0]
                     const embed = {
-                        "title": message.author.username + " vs. " + name2,
+                        "title": message.author.username + " vs. " + hold2,
                         "description": "Points (Overall): " + u1a['points'] + " vs. " + u2a['points'] + "\n" +
                             "Tags (Overall): " + u1a['tags'] + " vs. " + u2a['tags'] + "\n" +
                             "Tabs (Overall): " + u1a['tabs'] + " vs. " + u2a['tabs'] + "\n" +
@@ -41,7 +47,7 @@ module.exports = {
                             "Tabs (Seasonal): " + u1s['tabs'] + " vs. " + u2s['tabs'] + "\n"
                     }
                     const first = new Discord.MessageEmbed()
-                    .setTitle(message.author.username + " vs. " + name2)
+                    .setTitle(message.author.username + " vs. " + hold2)
                     .setDescription("Points (Overall): " + u1a['points'] + " vs. " + u2a['points'] + "\n" +
                     "Tags (Overall): " + u1a['tags'] + " vs. " + u2a['tags'] + "\n" +
                     "Tabs (Overall): " + u1a['tabs'] + " vs. " + u2a['tabs'] + "\n" +

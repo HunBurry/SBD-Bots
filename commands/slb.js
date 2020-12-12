@@ -10,11 +10,17 @@ module.exports = {
         data2 = JSON.parse(data);
         members = data2["Response"]["members"]
         myDicts = {}
+        myCommand = client.commands.get("checkName")
+        id = await myCommand.execute(message.author.username, databases);
+        name = ''
         if (args.length == 0) {
             for (let i = 0; i < members.length; i++) {
                 let un = members[i]['username']
                 let totalVal = parseInt(members[i]['seasonScores'][1]['points']) + (10 * parseInt(members[i]['seasonScores'][1]['tabs'])) + (5 * parseInt(members[i]['seasonScores'][1]['tags']))
                 myDicts[un] = totalVal;
+                if (members[i]['bungieID'] == id) {
+                    name = un;
+                }
             }
 
             items = Object.keys(myDicts).map(function(key) {
@@ -28,8 +34,8 @@ module.exports = {
             myString = '';
 
             shouldAdd = true
-            myCommand = client.commands.get("checkName")
-            name = await myCommand.execute(message.author.username, databases);
+            ///myCommand = client.commands.get("checkName")
+            ///name = await myCommand.execute(message.author.username, databases);
             for (let i = 1; i < 26; i++) {
                 if (name.toLowerCase() == items[i - 1][0].toLowerCase()) {
                     shouldAdd = false
@@ -49,13 +55,13 @@ module.exports = {
                 }
             }
 
-            const embed = {
-                "title": "Seasonal Leaderboards",
-                "description": "Leaderboards are calculated such as Points + (Tags * 5) + (Tabs * 10)\n" + myString
-            }
-            message.channel.send({
-                embed
-            });
+            const first = new Discord.MessageEmbed()
+            .setTitle("Seasonal Leaderboards")
+            .setDescription(myString)
+            .setColor(message.member.displayHexColor)
+            .setFooter("Leaderboards are calculated such as Points + (Tags * 5) + (Tabs * 10)");
+            message.channel.send(first);
+
         }
         else {
             if (args[0] == 'points') {
@@ -63,6 +69,9 @@ module.exports = {
                     let un = members[i]['username']
                     let totalVal = parseInt(members[i]['seasonScores'][1]['points'])
                     myDicts[un] = totalVal;
+                    if (members[i]['bungieID'] == id) {
+                        name = un;
+                    }
                 }
             }
             else if (args[0] == 'tags') {
@@ -70,6 +79,9 @@ module.exports = {
                     let un = members[i]['username']
                     let totalVal = parseInt(members[i]['seasonScores'][1]['tags'])
                     myDicts[un] = totalVal;
+                    if (members[i]['bungieID'] == id) {
+                        name = un;
+                    }
                 }
             }
             else if (args[0] == 'tabs') {
@@ -77,6 +89,9 @@ module.exports = {
                     let un = members[i]['username']
                     let totalVal = parseInt(members[i]['seasonScores'][1]['tabs'])
                     myDicts[un] = totalVal;
+                    if (members[i]['bungieID'] == id) {
+                        name = un;
+                    }
                 }
             }
             else {
@@ -98,8 +113,6 @@ module.exports = {
             myString = '';
 
             shouldAdd = true
-            myCommand = client.commands.get("checkName")
-            name = await myCommand.execute(message.author.username, databases);
             for (let i = 1; i < 26; i++) {
                 if (name.toLowerCase() == items[i - 1][0].toLowerCase()) {
                     shouldAdd = false
@@ -119,13 +132,11 @@ module.exports = {
                 }
             }
 
-            const embed = {
-                "title": "Seasonal Leaderboards for " + tOf,
-                "description": myString 
-            }
-            message.channel.send({
-                embed
-            });
+            const first = new Discord.MessageEmbed()
+            .setTitle("Seasonal Leaderboards for " + tOf)
+            .setDescription(myString)
+            .setColor(message.member.displayHexColor)
+            message.channel.send(first);
         }
     },
 };

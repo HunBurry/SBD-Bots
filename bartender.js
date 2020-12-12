@@ -1,12 +1,16 @@
+//const { prefix, token } = require('./config.json');
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const axios = require('axios');
 const Canvas = require('canvas');
 const Sequelize = require('sequelize');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+///const creds = require('./creds.json');
+const doc = new GoogleSpreadsheet('1Hex1F3awJ1A99-kcqy62twZ-WFd__q9uUUjDlVi57Ro');
 const fs = require('fs');
 var http = require('http');
 const tmi = require('tmi.js');
+const { setUncaughtExceptionCaptureCallback } = require('process');
 
 const tessConfig = {
     lang: "eng",
@@ -102,6 +106,26 @@ const Solstice = sequelize.define('solstice', {
     }
 })
 
+const Profiles = sequelize.define('profilea', {
+    player: Sequelize.STRING,
+    steamCode: Sequelize.STRING,
+    xboxGT: Sequelize.STRING, 
+    psID: Sequelize.STRING,
+    clanDate: Sequelize.STRING,
+    location: Sequelize.STRING,
+    birth_date: Sequelize.STRING, 
+    stadiaGT: Sequelize.STRING,
+    twitchURL: Sequelize.STRING,
+    bio: Sequelize.STRING,
+    timezone: Sequelize.STRING
+})
+
+const Attributes = sequelize.define('attributes', {
+    player: Sequelize.STRING,
+    title: Sequelize.STRING,
+    description: Sequelize.STRING,
+})
+
 const Challenges = sequelize.define('newChallenges', {
     player1: Sequelize.STRING,
     player2: Sequelize.STRING,
@@ -163,6 +187,8 @@ client.once('ready', () => {
     Dungeons.sync();
     GMNF.sync();
     SteamReg.sync();
+    Profiles.sync();
+    Attributes.sync();
 	client.user.setActivity('-help for... help', { type: 'PLAYING' })
   .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
   .catch(console.error);
@@ -186,7 +212,8 @@ client.on('message', message => {
             ///console.log(command)
             ///console.log(client.commands)
             try {
-                myList = [Names, Challenges, Wins, Beers, Solstice, Events, Bids, Raids, Dungeons, GMNF, SteamReg]
+                myList = [Names, Challenges, Wins, Beers, Solstice, Events, Bids, Raids, Dungeons, GMNF, SteamReg, Profiles, Attributes]
+                console.log(command)
                 command.execute(args, message, client, myList);
             }
             catch (error) {
@@ -197,4 +224,4 @@ client.on('message', message => {
     }
 });
 
-client.login("TOKENHERE");
+client.login("INSERT_DATA_HERE");

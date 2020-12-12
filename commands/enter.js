@@ -24,11 +24,10 @@ module.exports = {
                 disName = x.first().displayName
             }
             await doc.useServiceAccountAuth(creds);
-            ///doc.useApiKey('AIzaSyCdMrWC9YMt66aXuUma_k682WUv7GnfYog');
             await doc.loadInfo();
             const sheet = doc.sheetsByIndex[1];
-            const rows = await sheet.getRows({offset: 0, limit: 550});
-            await sheet.loadCells('A1:Q560');
+            const rows = await sheet.getRows({offset: 0, limit: 650});
+            await sheet.loadCells('A1:Q660');
             didLoad = false;
             for (let i = 0; i < rows.length; i++) {
                 name = await sheet.getCellByA1("A" + rows[i].rowNumber).value;
